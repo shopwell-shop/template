@@ -4,7 +4,10 @@
     "type": "project",
     "require": {
         "composer-runtime-api": "^2.0",
-        "shopwell/platform": "~v6.7.0",
+        "shopwell/administration": "*",
+        "shopwell/core": "~v6.7.0",
+        "shopwell/elasticsearch": "*",
+        "shopwell/storefront": "*",
         "symfony/flex": "~2"
     },
     "repositories": [

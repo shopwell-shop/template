@@ -15,14 +15,14 @@ if (process.env.GITHUB_TOKEN) {
  * Update Shopwell core to latest version
  *
  * This script:
- * 1. Fetches all tags from Shopwell core repository
+ * 1. Fetches all tags from the Shopwell core repository
  * 2. For each tag, checks if it already exists in the local git repository
  * 3. If not, updates composer.json, commits changes, tags, and resets to trunk
  */
 async function update() {
   try {
     // Fetch tags from GitHub
-    const response = await fetch('https://api.github.com/repos/shopwell-shop/shopwell/tags?per_page=50', {
+    const response = await fetch('https://api.github.com/repos/shopwell-shop/core/tags?per_page=50', {
       headers
     });
     if (!response.ok) {
@@ -51,15 +51,16 @@ async function update() {
           composerJson['minimum-stability'] = 'stable';
         }
 
-        // A template release tracks the matching registry-backed Shopwell platform release.
-        composerJson.require['shopwell/platform'] = item.name;
+        // Template releases follow the split core package, matching the upstream
+        // dependency topology; the other split packages resolve the same release.
+        composerJson.require['shopwell/core'] = item.name;
 
         // Write updated composer.json
         fs.writeFileSync(composerJsonPath, JSON.stringify(composerJson, null, 2));
 
         // Git operations
         execSync('git add composer.json');
-        execSync(`git commit -m "Update shopwell/platform to ${item.name}"`, {stdio: 'inherit'});
+        execSync(`git commit -m "Update shopwell/core to ${item.name}"`, {stdio: 'inherit'});
         execSync(`git tag -m "Release: ${item.name}" ${item.name}`, {stdio: 'inherit'});
         execSync('git reset --hard origin/trunk', {stdio: 'inherit'});
 

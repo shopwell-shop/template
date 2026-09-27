@@ -7,6 +7,10 @@ This repository is the independently maintained Shopwell project template.
 - Preserve every upstream legal text verbatim in root `NOTICE`.
 - Outside `NOTICE`, do not reintroduce Shopware branding, package names, repositories, or Actions.
 - Composer dependencies must use stable versions from a real registry. Git URLs, branches, commits, `dev-*`, `path`, `file`, and `link` fallbacks are not releases.
+- Mirror the upstream template's split-package topology: require `shopwell/core`,
+  `shopwell/administration`, `shopwell/storefront`, and `shopwell/elasticsearch`.
+  Never replace those four project dependencies with the monorepo aggregate
+  package `shopwell/platform`.
 - Do not merge or cherry-pick unrelated upstream history, copy upstream tags, or force-push.
 - Before commit, push, release, or sync completion, run:
   `../sync-upstream/bin/syncctl audit-license template` and
